@@ -53,7 +53,16 @@ public class P17_HernandezPuga_Diego {
 	private static void pedirAlumnos(int alumnos) {
 		ArrayList<Float> notas = new ArrayList<>();
 		for(int i=0;i<alumnos;i++) {
-			notas.add(pedirFloat("Introduce la nota del alumno " + (i+1) + ":"));
+			float nota = 0;
+			try {
+				nota = pedirFloat("Introduce la nota del alumno " + (i+1) + ":");
+				if(nota < 0 || nota > 10) {
+					throw new ExceptionNoValidNote();
+				}
+			}catch (ExceptionNoValidNote envn) {
+				
+			}
+			notas.add(nota);
 			System.out.println("La nota media es " + (Math.round(hacerMedia(notas) * 100.0) / 100.0));
 		}
 	}
@@ -66,7 +75,7 @@ public class P17_HernandezPuga_Diego {
 		return suma/notas.size();
 	}
 	
-	private static float pedirFloat(String texto) {
+	private static float pedirFloat(String texto) throws ExceptionNoValidNote {
 		Scanner teclado = new Scanner(System.in);
 		float numero = 0;
 		boolean datoValido = false;
